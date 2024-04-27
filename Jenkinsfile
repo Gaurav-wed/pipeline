@@ -2,7 +2,8 @@ pipeline {
     agent any 
     
     parameters {
-        string defaultValue: 'DEV', name: 'ENV'
+        booleanParam(name: 'BOOL_PARAM', defaultValue: false, description: 'Boolean parameter')
+        choice(name: 'ENV', choices: ['QA', 'UAT'], description: 'Select the environment')
     }
     
     triggers {
@@ -23,12 +24,13 @@ pipeline {
         stage('Deployment') {
             steps {
                 script {
-                    if (env.ENV == 'QA') {
-                        sh 'cp target/pipeline.war /home/gaurav/Devops/apache-tomcat-9.0.88/webapps'
-                        echo "Deployment has been COMPLETED on QA!"
-                    } else if (env.ENV == 'UAT') {
-                        sh 'cp target/pipeline.war /home/gaurav/Devops/apache-tomcat-9.0.88/webapps'
-                        echo "Deployment has been done on UAT!"
+                    if (params.BOOL_PARAM) {
+                        if (env.Bool == 'True') {
+                            sh 'cp target/pipeline.war /home/gaurav/Devops/apache-tomcat-9.0.88/webapps'
+                            echo "Deployment has been COMPLETED on QA!"
+                        } else if (env.Bool == 'False') {
+                    } else {
+                        echo "Please try again!"
                     }
                 }
             }
