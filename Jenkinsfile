@@ -25,10 +25,13 @@ pipeline {
             steps {
                 script {
                     if (params.BOOL_PARAM) {
-                        if (env.Bool == 'True') {
+                        if (env.ENV == 'QA') {
                             sh 'cp target/pipeline.war /home/gaurav/Devops/apache-tomcat-9.0.88/webapps'
                             echo "Deployment has been COMPLETED on QA!"
-                        } else if (env.Bool == 'False') {
+                        } else if (env.ENV == 'UAT') {
+                            sh 'cp target/pipeline.war /home/gaurav/Devops/apache-tomcat-9.0.88/webapps'
+                            echo "Deployment has been done on UAT!"
+                        }
                     } else {
                         echo "Please try again!"
                     }
@@ -37,4 +40,3 @@ pipeline {
         }
     }
 }
-
